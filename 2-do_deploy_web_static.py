@@ -6,7 +6,8 @@ archive to the web servers
 
 from fabric.api import put, run, env
 from os.path import exists
-env.hosts = ['3.238.28.101', '3.209.82.116']
+
+env.hosts = ["3.238.28.101", "3.209.82.116"]
 
 
 def do_deploy(archive_path):
@@ -14,13 +15,13 @@ def do_deploy(archive_path):
     if exists(archive_path) is False:
         print("False")
         return False
-    
+
     filename = archive_path.split("/")
     filename = filename[1]
-    fname = filename.split('.')
+    fname = filename.split(".")
     fname = fname[0]
 
-    newpath = '/data/web_static/releases/{}/'.format(fname)
+    newpath = "/data/web_static/releases/{}/".format(fname)
 
     try:
         put(archive_path, "/tmp/")
@@ -33,6 +34,6 @@ def do_deploy(archive_path):
         run("ln -s {} /data/web_static/current".format(newpath))
         print("New version deployed!")
         return True
-    except:
+    except Exception:
         print("False 2")
         return False
